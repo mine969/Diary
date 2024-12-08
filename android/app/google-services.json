@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "435785406293",
+    "project_id": "diary-by-mine",
+    "storage_bucket": "diary-by-mine.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435785406293:android:fb916b904cfcb09aeec1dc",
+        "android_client_info": {
+          "package_name": "com.mine.diaryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXX8PGlmLdCjWbOZPlaw8B4ucHAfChQHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

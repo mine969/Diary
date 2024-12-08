@@ -1,0 +1,7 @@
+First diary entry title
+This is the content of the first diary entry.
+2024-01-01
+
+Second diary entry title
+This is the content of the second diary entry.
+2024-02-14
