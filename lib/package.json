@@ -3,6 +3,6 @@
     "version": "1.0.0",
     "dependencies": {
         "express": "^4.21.2",
-        "mysql2": "^2.3.3"
+        "mysql2": "^3.11.5"
     }
 }
