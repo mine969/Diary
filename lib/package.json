@@ -2,8 +2,7 @@
     "name": "diary-app-api",
     "version": "1.0.0",
     "dependencies": {
-      "express": "^4.17.1",
-      "mysql2": "^2.3.3"
+        "express": "^4.21.2",
+        "mysql2": "^2.3.3"
     }
-  }
-  
+}
