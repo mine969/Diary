@@ -7,11 +7,11 @@ class DiaryEntryCard extends StatelessWidget {
   final VoidCallback onUpdate; // This is the update callback
 
   const DiaryEntryCard({
-    super.key,
+    Key? key,
     required this.entry,
     required this.onDelete,
     required this.onUpdate,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

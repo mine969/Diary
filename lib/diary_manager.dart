@@ -2,7 +2,7 @@ import 'diary_entry.dart';
 
 class DiaryManager {
   // In-memory list of diary entries
-  final List<DiaryEntry> _entries = [
+  List<DiaryEntry> _entries = [
     DiaryEntry(
       title: 'First Entry',
       content: 'This is the first diary entry.',
