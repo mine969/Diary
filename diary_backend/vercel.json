@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "api/entries.js",  
+        "use": "@vercel/node"     
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/entries",
+        "dest": "api/entries.js"     
+      },
+      {
+        "src": "/api/entries/(.*)",   
+        "dest": "api/entries.js"      
+      }
+    ]
+  }
+  

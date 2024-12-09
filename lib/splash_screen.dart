@@ -39,11 +39,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     await Future.delayed(const Duration(seconds: 3)); // Wait for 3 seconds
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const DiaryScreen()), // Navigate to DiaryScreen
+      MaterialPageRoute(builder: (context) =>  DiaryScreen()), // Navigate to DiaryScreen
     );
   }
 
-  @override
+  @override 
   void dispose() {
     _controller.dispose();  // Dispose of the animation controller to avoid memory leaks
     super.dispose();

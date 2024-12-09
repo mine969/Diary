@@ -1,8 +1,20 @@
 {
-    "name": "diary-app-api",
+    "name": "diary-backend",
     "version": "1.0.0",
+    "description": "A simple backend for Diary API",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js",
+      "dev": "vercel dev" 
+    },
     "dependencies": {
-        "express": "^4.21.2",
-        "mysql2": "^3.11.5"
+      "express": "^4.17.1",
+      "mysql2": "^2.3.3",
+      "dotenv": "^10.0.0"
+    },
+    "devDependencies": {},
+    "engines": {
+      "node": "22.x"
     }
-}
+  }
+  

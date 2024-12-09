@@ -1,32 +1,43 @@
-// diary_entry_card.dart
-
 import 'package:flutter/material.dart';
 import 'diary_entry.dart';
 
 class DiaryEntryCard extends StatelessWidget {
   final DiaryEntry entry;
-  final VoidCallback onUpdate;
   final VoidCallback onDelete;
+  final VoidCallback onUpdate; // This is the update callback
 
   const DiaryEntryCard({
+    Key? key,
     required this.entry,
-    required this.onUpdate,
     required this.onDelete,
-  });
+    required this.onUpdate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.black54,
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      color: Colors.black,
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       child: ListTile(
-        title: Text(entry.title, style: const TextStyle(color: Colors.greenAccent)),
-        subtitle: Text(entry.content, style: const TextStyle(color: Colors.white)),
+        contentPadding: const EdgeInsets.all(16),
+        title: Text(
+          entry.title,
+          style: const TextStyle(
+            color: Colors.greenAccent,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Text(
+          entry.content,
+          style: const TextStyle(color: Colors.white),
+        ),
+        onTap: onUpdate, // This triggers the onUpdate function when the entry is tapped
         trailing: IconButton(
           icon: const Icon(Icons.delete, color: Colors.red),
-          onPressed: onDelete, // Trigger the delete function
+          onPressed: onDelete, // This triggers delete when clicked
         ),
-        onTap: onUpdate, // Trigger the update function when the card is tapped
       ),
     );
   }

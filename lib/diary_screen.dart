@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'diary_manager.dart';
 import 'diary_entry.dart';
-import 'add_entry_dialog.dart';
 import 'diary_entry_card.dart';
+import 'add_entry_page.dart'; // Import the Add Entry Page
 
 class DiaryScreen extends StatefulWidget {
   const DiaryScreen({super.key});
@@ -21,10 +21,33 @@ class _DiaryScreenState extends State<DiaryScreen> {
     _entries = _diaryManager.getEntries();  // Load entries on init
   }
 
-  void _addEntry(DiaryEntry entry) {
+  void _deleteEntry(int index) {
     setState(() {
-      _diaryManager.addEntry(entry);  // Add entry to file
+      _diaryManager.deleteEntry(index);  // Delete entry
       _entries = _diaryManager.getEntries();  // Reload entries
+    });
+  }
+
+  void _updateEntry(int index) {
+    _diaryManager.getEntries().then((entries) {
+      final entry = entries[index];  // Get the current entry
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddEntryPage(
+            onSave: (updatedEntry) {
+              setState(() {
+                _diaryManager.updateEntry(index, updatedEntry);  // Update the entry in the manager
+                _entries = _diaryManager.getEntries();  // Reload entries
+              });
+              Navigator.pop(context);  // Go back to the diary screen
+            },
+            initialTitle: entry.title,  // Pass initial title
+            initialContent: entry.content,  // Pass initial content
+            initialDate: entry.date,  // Pass initial date
+          ),
+        ),
+      );
     });
   }
 
@@ -35,12 +58,16 @@ class _DiaryScreenState extends State<DiaryScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset('assets/images/DiaryLogo.png'),  // Ensure you have a logo in assets
+        ),
         title: const Text(
           'Diary Entries',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
-            color: Colors.greenAccent,  // Neon green title for hacker theme
+            color: Colors.greenAccent,
             shadows: [
               Shadow(
                 blurRadius: 10.0,
@@ -54,11 +81,16 @@ class _DiaryScreenState extends State<DiaryScreen> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AddEntryDialog(onSave: _addEntry);  // Show dialog to add entry
-                },
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddEntryPage(onSave: (entry) {
+                    setState(() {
+                      _diaryManager.addEntry(entry);
+                      _entries = _diaryManager.getEntries();  // Reload entries
+                    });
+                  }),
+                ),
               );
             },
           ),
@@ -72,7 +104,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           }
 
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));  // Show error if there's an issue
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -85,7 +117,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            );  // Show if no entries
+            );
           }
 
           final entries = snapshot.data!;
@@ -97,46 +129,16 @@ class _DiaryScreenState extends State<DiaryScreen> {
               final entry = entries[index];
               return DiaryEntryCard(
                 entry: entry,
-                onUpdate: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AddEntryDialog(
-                        initialTitle: entry.title,
-                        initialContent: entry.content,
-                        initialDate: entry.date,
-                        onSave: (updatedEntry) {
-                          _diaryManager.updateEntry(index, updatedEntry);
-                          setState(() {
-                            _entries = _diaryManager.getEntries();  // Reload entries
-                          });
-                        },
-                      );
-                    },
-                  );
-                },
                 onDelete: () {
-                  _diaryManager.deleteEntry(index);
-                  setState(() {
-                    _entries = _diaryManager.getEntries();  // Reload entries
-                  });
+                  _deleteEntry(index); // Delete the entry
+                },
+                onUpdate: () {
+                  _updateEntry(index);  // Open the update page
                 },
               );
             },
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AddEntryDialog(onSave: _addEntry);  // Show dialog to add entry
-            },
-          );
-        },
-        child: const Icon(Icons.add),
-        backgroundColor: Colors.greenAccent,  // Neon green button for a hacker look
       ),
     );
   }
