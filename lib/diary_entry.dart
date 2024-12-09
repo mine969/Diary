@@ -1,11 +1,13 @@
 class DiaryEntry {
-  final String title;
-  final String content;
-  final DateTime date;
+  String title;
+  String content;
+  DateTime date;
+  String? imagePath;
 
   DiaryEntry({
     required this.title,
     required this.content,
     required this.date,
+    this.imagePath,
   });
 }

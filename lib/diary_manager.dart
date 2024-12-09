@@ -1,43 +1,45 @@
-import 'dart:async';
-import 'diary_entry.dart';
+import 'diary_entry.dart';  // Ensure this import is at the top
 
 class DiaryManager {
-  // In-memory list of diary entries. In a real-world app, this could be a database or a file system.
-  List<DiaryEntry> _entries = [];
+  // Sample data for testing
+  List<DiaryEntry> _entries = [
+    DiaryEntry(
+      title: 'Sample Entry 1',
+      content: 'This is a sample entry to test the app functionality.',
+      date: DateTime.now(),
+      imagePath: null,  // No image path for this entry
+    ),
+    DiaryEntry(
+      title: 'Sample Entry 2',
+      content: 'This is another sample entry to demonstrate the diary feature.',
+      date: DateTime.now().add(Duration(days: 1)),
+      imagePath: null,
+    ),
+    DiaryEntry(
+      title: 'Sample Entry 3',
+      content: 'This entry contains some more text and data.',
+      date: DateTime.now().add(Duration(days: 2)),
+      imagePath: null,
+    ),
+  ];
 
-  // Method to get all diary entries
+  // Fetch all diary entries
   Future<List<DiaryEntry>> getEntries() async {
-    // Simulate a delay (like fetching data from a database or API)
-    await Future.delayed(const Duration(seconds: 1));
-    return _entries; // Return the list of entries
+    return _entries;
   }
 
-  // Method to add a new diary entry
+  // Add a new entry
   void addEntry(DiaryEntry entry) {
-    _entries.add(entry); // Add the entry to the list
+    _entries.add(entry);
   }
 
-  // Method to update an existing diary entry
+  // Update an existing entry
   void updateEntry(int index, DiaryEntry updatedEntry) {
-    // Ensure the index is valid
-    if (index >= 0 && index < _entries.length) {
-      _entries[index] = updatedEntry; // Replace the old entry with the updated one
-    }
+    _entries[index] = updatedEntry;
   }
 
-  // Method to delete a diary entry by index
+  // Delete an entry
   void deleteEntry(int index) {
-    // Ensure the index is valid
-    if (index >= 0 && index < _entries.length) {
-      _entries.removeAt(index); // Remove the entry from the list
-    }
+    _entries.removeAt(index);
   }
-
-  // Optionally: You could implement saving the data to a file or database here
-  // For example, using SharedPreferences, SQLite, or a file system (for persistence).
-  // Here's a simple example of how you could save to disk (or a database):
-  // Future<void> saveEntriesToDisk() async {
-  //   // Your disk-saving logic goes here (e.g., using shared_preferences or SQLite).
-  // }
 }
-

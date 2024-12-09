@@ -32,6 +32,25 @@ class _AddEntryPageState extends State<AddEntryPage> {
     _contentController = TextEditingController(text: widget.initialContent ?? '');
   }
 
+  void _saveEntry() {
+    if (_titleController.text.isEmpty || _contentController.text.isEmpty) {
+      // Show a warning if title or content is empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Title and content cannot be empty')),
+      );
+      return;
+    }
+
+    final entry = DiaryEntry(
+      title: _titleController.text,
+      content: _contentController.text,
+      date: widget.initialDate ?? DateTime.now(),
+    );
+
+    widget.onSave(entry);  // Pass the updated or new entry to the parent
+    Navigator.pop(context);  // Go back to the previous screen
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,15 +69,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.save, color: Colors.greenAccent),
-            onPressed: () {
-              final entry = DiaryEntry(
-                title: _titleController.text,
-                content: _contentController.text,
-                date: widget.initialDate ?? DateTime.now(),
-              );
-              widget.onSave(entry);
-              Navigator.pop(context);  // Go back to the previous screen
-            },
+            onPressed: _saveEntry,  // Call save method
           ),
         ],
       ),
@@ -90,17 +101,9 @@ class _AddEntryPageState extends State<AddEntryPage> {
             const SizedBox(height: 20),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  final entry = DiaryEntry(
-                    title: _titleController.text,
-                    content: _contentController.text,
-                    date: widget.initialDate ?? DateTime.now(),
-                  );
-                  widget.onSave(entry);
-                  Navigator.pop(context);  // Go back to the diary screen
-                },
+                onPressed: _saveEntry,  // Call save method
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.greenAccent, // Define color directly here
+                  backgroundColor: Colors.greenAccent,
                   padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),
                 ),
                 child: const Text(
