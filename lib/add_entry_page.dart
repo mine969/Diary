@@ -6,7 +6,7 @@ class AddEntryPage extends StatefulWidget {
   final String? initialTitle;
   final String? initialContent;
   final DateTime? initialDate;
-  final bool isEditing;  // Flag to determine if we are editing an entry
+  final bool isEditing; // Flag to check if editing an existing entry
 
   const AddEntryPage({
     super.key,
@@ -14,7 +14,7 @@ class AddEntryPage extends StatefulWidget {
     this.initialTitle,
     this.initialContent,
     this.initialDate,
-    this.isEditing = false, // Default is false for new entry
+    this.isEditing = false,
   });
 
   @override
@@ -49,15 +49,15 @@ class _AddEntryPageState extends State<AddEntryPage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.save),
+            icon: const Icon(Icons.save, color: Colors.greenAccent),
             onPressed: () {
               final entry = DiaryEntry(
                 title: _titleController.text,
                 content: _contentController.text,
                 date: widget.initialDate ?? DateTime.now(),
               );
-              widget.onSave(entry); // Save the entry using the callback
-              Navigator.pop(context);  // Return to the previous screen
+              widget.onSave(entry);
+              Navigator.pop(context);  // Go back to the previous screen
             },
           ),
         ],
@@ -100,12 +100,12 @@ class _AddEntryPageState extends State<AddEntryPage> {
                   Navigator.pop(context);  // Go back to the diary screen
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.greenAccent, // Use backgroundColor instead of primary
+                  backgroundColor: Colors.greenAccent, // Define color directly here
                   padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),
                 ),
-                child: Text(
-                  widget.isEditing ? 'Update Entry' : 'Save Entry',
-                  style: const TextStyle(fontSize: 18),
+                child: const Text(
+                  'Save Entry',
+                  style: TextStyle(fontSize: 18),
                 ),
               ),
             ),

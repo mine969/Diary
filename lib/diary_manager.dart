@@ -1,42 +1,43 @@
+import 'dart:async';
 import 'diary_entry.dart';
 
 class DiaryManager {
-  // In-memory list of diary entries
-  List<DiaryEntry> _entries = [
-    DiaryEntry(
-      title: 'First Entry',
-      content: 'This is the first diary entry.',
-      date: DateTime.now().subtract(Duration(days: 2)),
-    ),
-    DiaryEntry(
-      title: 'Second Entry',
-      content: 'Today I worked on Flutter.',
-      date: DateTime.now().subtract(Duration(days: 1)),
-    ),
-    DiaryEntry(
-      title: 'Third Entry',
-      content: 'I added CRUD functionality.',
-      date: DateTime.now(),
-    ),
-  ];
+  // In-memory list of diary entries. In a real-world app, this could be a database or a file system.
+  List<DiaryEntry> _entries = [];
 
-  // Get all entries
+  // Method to get all diary entries
   Future<List<DiaryEntry>> getEntries() async {
-    return Future.delayed(Duration(seconds: 1), () => _entries);
+    // Simulate a delay (like fetching data from a database or API)
+    await Future.delayed(const Duration(seconds: 1));
+    return _entries; // Return the list of entries
   }
 
-  // Add a new entry
+  // Method to add a new diary entry
   void addEntry(DiaryEntry entry) {
-    _entries.add(entry);
+    _entries.add(entry); // Add the entry to the list
   }
 
-  // Update an existing entry
+  // Method to update an existing diary entry
   void updateEntry(int index, DiaryEntry updatedEntry) {
-    _entries[index] = updatedEntry;
+    // Ensure the index is valid
+    if (index >= 0 && index < _entries.length) {
+      _entries[index] = updatedEntry; // Replace the old entry with the updated one
+    }
   }
 
-  // Delete an entry
+  // Method to delete a diary entry by index
   void deleteEntry(int index) {
-    _entries.removeAt(index);
+    // Ensure the index is valid
+    if (index >= 0 && index < _entries.length) {
+      _entries.removeAt(index); // Remove the entry from the list
+    }
   }
+
+  // Optionally: You could implement saving the data to a file or database here
+  // For example, using SharedPreferences, SQLite, or a file system (for persistence).
+  // Here's a simple example of how you could save to disk (or a database):
+  // Future<void> saveEntriesToDisk() async {
+  //   // Your disk-saving logic goes here (e.g., using shared_preferences or SQLite).
+  // }
 }
+
