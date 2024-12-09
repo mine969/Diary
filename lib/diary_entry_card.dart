@@ -16,7 +16,7 @@ class DiaryEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.black,
+      color: const Color.fromARGB(255, 55, 66, 52),
       elevation: 5,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       child: ListTile(
