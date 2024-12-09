@@ -45,6 +45,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
             initialTitle: entry.title,  // Pass initial title
             initialContent: entry.content,  // Pass initial content
             initialDate: entry.date,  // Pass initial date
+            isEditing: true, // Indicate that we are editing
           ),
         ),
       );
@@ -79,7 +80,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.add, color: Colors.greenAccent), // Ensure color is visible
             onPressed: () {
               Navigator.push(
                 context,

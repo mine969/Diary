@@ -64,8 +64,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 opacity: _logoAnimation,  // Link the fade-in animation to the logo
                 child: Image.asset(
                   'assets/images/DiaryLogo.png',  // Path to your logo
-                  width: 180,
-                  height: 180,
+                  width: 500,
+                  height: 500,
                 ),
               ),
             ),

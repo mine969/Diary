@@ -6,6 +6,7 @@ class AddEntryPage extends StatefulWidget {
   final String? initialTitle;
   final String? initialContent;
   final DateTime? initialDate;
+  final bool isEditing;  // Flag to determine if we are editing an entry
 
   const AddEntryPage({
     super.key,
@@ -13,6 +14,7 @@ class AddEntryPage extends StatefulWidget {
     this.initialTitle,
     this.initialContent,
     this.initialDate,
+    this.isEditing = false, // Default is false for new entry
   });
 
   @override
@@ -37,9 +39,9 @@ class _AddEntryPageState extends State<AddEntryPage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        title: const Text(
-          'Add Diary Entry',
-          style: TextStyle(
+        title: Text(
+          widget.isEditing ? 'Edit Diary Entry' : 'Add Diary Entry',
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
             color: Colors.greenAccent,
@@ -67,25 +69,25 @@ class _AddEntryPageState extends State<AddEntryPage> {
           children: [
             TextField(
               controller: _titleController,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
                 labelText: 'Title',
                 labelStyle: TextStyle(color: Colors.greenAccent),
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextField(
               controller: _contentController,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
                 labelText: 'Content',
                 labelStyle: TextStyle(color: Colors.greenAccent),
                 border: OutlineInputBorder(),
               ),
               maxLines: 6,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Center(
               child: ElevatedButton(
                 onPressed: () {
@@ -99,11 +101,11 @@ class _AddEntryPageState extends State<AddEntryPage> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.greenAccent, // Use backgroundColor instead of primary
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),
                 ),
                 child: Text(
-                  'Save Entry',
-                  style: TextStyle(fontSize: 18),
+                  widget.isEditing ? 'Update Entry' : 'Save Entry',
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
             ),
