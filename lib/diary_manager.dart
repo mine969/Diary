@@ -23,8 +23,10 @@ class DiaryManager {
     ),
   ];
 
-  // Fetch all diary entries
+  // Fetch all diary entries asynchronously
   Future<List<DiaryEntry>> getEntries() async {
+    // Simulate a delay as if fetching from a database or API
+    await Future.delayed(Duration(seconds: 1));  // Simulating network delay
     return _entries;
   }
 

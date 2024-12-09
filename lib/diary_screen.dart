@@ -18,37 +18,139 @@ class _DiaryScreenState extends State<DiaryScreen> {
   @override
   void initState() {
     super.initState();
-    _entries = _diaryManager.getEntries();  // Load entries on init
+    _entries = _diaryManager.getEntries(); // Load entries on init
   }
 
   void _deleteEntry(int index) {
     setState(() {
-      _diaryManager.deleteEntry(index);  // Delete entry
-      _entries = _diaryManager.getEntries();  // Reload entries
+      _diaryManager.deleteEntry(index); // Delete entry
+      _entries = _diaryManager.getEntries(); // Reload entries
     });
   }
 
-  void _updateEntry(int index) {
+  // Function to show the dialog and edit the entry inline
+  void _editEntryInline(int index) {
     _diaryManager.getEntries().then((entries) {
-      final entry = entries[index];  // Get the current entry
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AddEntryPage(
-            onSave: (updatedEntry) {
+      final entry = entries[index]; // Get the current entry
+      TextEditingController titleController =
+          TextEditingController(text: entry.title);
+      TextEditingController contentController =
+          TextEditingController(text: entry.content);
+
+      // Show full-screen modal bottom sheet for editing
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true, // Make the sheet full screen
+        backgroundColor: Colors.black, // Transparent background
+        builder: (BuildContext context) {
+          return GestureDetector(
+            onTap: () {
+              // Automatically save when tapping outside the input area
+              final updatedEntry = DiaryEntry(
+                title: titleController.text,
+                content: contentController.text,
+                date: entry.date, // Keep the original date
+                imagePath:
+                    entry.imagePath, // Keep the original imagePath if any
+              );
+
               setState(() {
-                _diaryManager.updateEntry(index, updatedEntry);  // Update the entry in the manager
-                _entries = _diaryManager.getEntries();  // Reload entries
+                _diaryManager.updateEntry(index, updatedEntry); // Update entry
+                _entries = _diaryManager.getEntries(); // Reload entries
               });
-              Navigator.pop(context);  // Go back to the diary screen
+
+              Navigator.pop(context); // Close the modal
             },
-            initialTitle: entry.title,  // Pass initial title
-            initialContent: entry.content,  // Pass initial content
-            initialDate: entry.date,  // Pass initial date
-            isEditing: true, // Indicate that we are editing
-          ),
-        ),
-      );
+            child: GestureDetector(
+              onTap:
+                  () {}, // Prevent taps inside the input area from closing the modal
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 8, 8, 8), // Dark background
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    // Title input
+                    TextField(
+                      controller: titleController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Title',
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    // Content input
+                    TextField(
+                      controller: contentController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Content',
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: 10,
+                    ),
+                    const SizedBox(height: 20),
+                    // Save button at the bottom
+                    ElevatedButton(
+                      onPressed: () {
+                        // Manually save the changes when the Save button is pressed
+                        final updatedEntry = DiaryEntry(
+                          title: titleController.text,
+                          content: contentController.text,
+                          date: entry.date, // Keep the original date
+                          imagePath: entry
+                              .imagePath, // Keep the original imagePath if any
+                        );
+
+                        setState(() {
+                          _diaryManager.updateEntry(
+                              index, updatedEntry); // Update entry
+                          _entries =
+                              _diaryManager.getEntries(); // Reload entries
+                        });
+
+                        Navigator.pop(context); // Close the modal after saving
+                      },
+                      child: const Text('Save'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(
+                            255, 40, 43, 41), // Save button color
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ).then((_) {
+        // Auto-save when modal is dismissed (if the user taps outside)
+        final updatedEntry = DiaryEntry(
+          title: titleController.text,
+          content: contentController.text,
+          date: entry.date, // Keep the original date
+          imagePath: entry.imagePath, // Keep the original imagePath if any
+        );
+
+        setState(() {
+          _diaryManager.updateEntry(index, updatedEntry); // Update entry
+          _entries = _diaryManager.getEntries(); // Reload entries
+        });
+      });
     });
   }
 
@@ -61,7 +163,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset('assets/images/DiaryLogo.png'),  // Ensure you have a logo in assets
+          child: Image.asset(
+              'assets/images/DiaryLogo.png'), // Ensure you have a logo in assets
         ),
         title: const Text(
           'Diary Entries',
@@ -80,7 +183,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add, color: Colors.greenAccent), // Ensure color is visible
+            icon: const Icon(Icons.add, color: Colors.greenAccent),
             onPressed: () {
               Navigator.push(
                 context,
@@ -88,7 +191,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   builder: (context) => AddEntryPage(onSave: (entry) {
                     setState(() {
                       _diaryManager.addEntry(entry);
-                      _entries = _diaryManager.getEntries();  // Reload entries
+                      _entries = _diaryManager.getEntries(); // Reload entries
                     });
                   }),
                 ),
@@ -109,22 +212,14 @@ class _DiaryScreenState extends State<DiaryScreen> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text(
-                'No entries yet.',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            );
+            return const Center(child: Text('No entries yet.'));
           }
 
           final entries = snapshot.data!;
 
           return ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
             itemCount: entries.length,
             itemBuilder: (context, index) {
               final entry = entries[index];
@@ -134,7 +229,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   _deleteEntry(index); // Delete the entry
                 },
                 onUpdate: () {
-                  _updateEntry(index);  // Open the update page
+                  _editEntryInline(index); // Open the full-screen inline edit
                 },
               );
             },
