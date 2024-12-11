@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 30.0),
                 child: Text(
-                  'Diary App By Mine',
+                  'Mini-Note By Mine',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,

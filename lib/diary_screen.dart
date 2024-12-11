@@ -167,7 +167,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
               'assets/images/DiaryLogo.png'), // Ensure you have a logo in assets
         ),
         title: const Text(
-          'Diary Entries',
+          'Notes',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
