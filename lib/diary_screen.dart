@@ -18,28 +18,30 @@ class _DiaryScreenState extends State<DiaryScreen> {
   @override
   void initState() {
     super.initState();
-    _entries = _diaryManager.getEntries();  // Load entries on init
+    _entries = _diaryManager.getEntries(); // Load entries on init
   }
 
   void _deleteEntry(int index) {
     setState(() {
-      _diaryManager.deleteEntry(index);  // Delete entry
-      _entries = _diaryManager.getEntries();  // Reload entries
+      _diaryManager.deleteEntry(index); // Delete entry
+      _entries = _diaryManager.getEntries(); // Reload entries
     });
   }
 
   // Function to show the dialog and edit the entry inline
   void _editEntryInline(int index) {
     _diaryManager.getEntries().then((entries) {
-      final entry = entries[index];  // Get the current entry
-      TextEditingController titleController = TextEditingController(text: entry.title);
-      TextEditingController contentController = TextEditingController(text: entry.content);
+      final entry = entries[index]; // Get the current entry
+      TextEditingController titleController =
+          TextEditingController(text: entry.title);
+      TextEditingController contentController =
+          TextEditingController(text: entry.content);
 
       // Show full-screen modal bottom sheet for editing
       showModalBottomSheet(
         context: context,
-        isScrollControlled: true,  // Make the sheet full screen
-        backgroundColor: Colors.transparent,  // Transparent background
+        isScrollControlled: true, // Make the sheet full screen
+        backgroundColor: Colors.transparent, // Transparent background
         builder: (BuildContext context) {
           return GestureDetector(
             onTap: () {
@@ -48,18 +50,20 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 title: titleController.text,
                 content: contentController.text,
                 date: entry.date, // Keep the original date
-                imagePath: entry.imagePath, // Keep the original imagePath if any
+                imagePath:
+                    entry.imagePath, // Keep the original imagePath if any
               );
 
               setState(() {
-                _diaryManager.updateEntry(index, updatedEntry);  // Update entry
-                _entries = _diaryManager.getEntries();  // Reload entries
+                _diaryManager.updateEntry(index, updatedEntry); // Update entry
+                _entries = _diaryManager.getEntries(); // Reload entries
               });
 
               Navigator.pop(context); // Close the modal
             },
             child: GestureDetector(
-              onTap: () {},  // Prevent taps inside the input area from closing the modal
+              onTap:
+                  () {}, // Prevent taps inside the input area from closing the modal
               child: Container(
                 padding: const EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
@@ -103,19 +107,23 @@ class _DiaryScreenState extends State<DiaryScreen> {
                           title: titleController.text,
                           content: contentController.text,
                           date: entry.date, // Keep the original date
-                          imagePath: entry.imagePath, // Keep the original imagePath if any
+                          imagePath: entry
+                              .imagePath, // Keep the original imagePath if any
                         );
 
                         setState(() {
-                          _diaryManager.updateEntry(index, updatedEntry);  // Update entry
-                          _entries = _diaryManager.getEntries();  // Reload entries
+                          _diaryManager.updateEntry(
+                              index, updatedEntry); // Update entry
+                          _entries =
+                              _diaryManager.getEntries(); // Reload entries
                         });
 
                         Navigator.pop(context); // Close the modal after saving
                       },
                       child: const Text('Save'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.greenAccent, // Save button color
+                        backgroundColor:
+                            Colors.greenAccent, // Save button color
                         padding: const EdgeInsets.symmetric(vertical: 15.0),
                         textStyle: const TextStyle(
                           fontSize: 16,
@@ -155,7 +163,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset('assets/images/DiaryLogo.png'),  // Ensure you have a logo in assets
+          child: Image.asset(
+              'assets/images/DiaryLogo.png'), // Ensure you have a logo in assets
         ),
         title: const Text(
           'Notes',
@@ -182,7 +191,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   builder: (context) => AddEntryPage(onSave: (entry) {
                     setState(() {
                       _diaryManager.addEntry(entry);
-                      _entries = _diaryManager.getEntries();  // Reload entries
+                      _entries = _diaryManager.getEntries(); // Reload entries
                     });
                   }),
                 ),
@@ -209,7 +218,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
           final entries = snapshot.data!;
 
           return ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
             itemCount: entries.length,
             itemBuilder: (context, index) {
               final entry = entries[index];
@@ -219,7 +229,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   _deleteEntry(index); // Delete the entry
                 },
                 onUpdate: () {
-                  _editEntryInline(index);  // Open the full-screen inline edit
+                  _editEntryInline(index); // Open the full-screen inline edit
                 },
               );
             },
