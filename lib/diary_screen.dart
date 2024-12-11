@@ -18,33 +18,34 @@ class _DiaryScreenState extends State<DiaryScreen> {
   @override
   void initState() {
     super.initState();
-    _entries = _diaryManager.getEntries();  // Load entries on init
+    _entries = _diaryManager.getEntries(); // Load entries on init
   }
 
   void _deleteEntry(int index) {
     setState(() {
-      _diaryManager.deleteEntry(index);  // Delete entry
-      _entries = _diaryManager.getEntries();  // Reload entries
+      _diaryManager.deleteEntry(index); // Delete entry
+      _entries = _diaryManager.getEntries(); // Reload entries
     });
   }
 
   void _updateEntry(int index) {
     _diaryManager.getEntries().then((entries) {
-      final entry = entries[index];  // Get the current entry
+      final entry = entries[index]; // Get the current entry
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => AddEntryPage(
             onSave: (updatedEntry) {
               setState(() {
-                _diaryManager.updateEntry(index, updatedEntry);  // Update the entry in the manager
-                _entries = _diaryManager.getEntries();  // Reload entries
+                _diaryManager.updateEntry(
+                    index, updatedEntry); // Update the entry in the manager
+                _entries = _diaryManager.getEntries(); // Reload entries
               });
-              Navigator.pop(context);  // Go back to the diary screen
+              Navigator.pop(context); // Go back to the diary screen
             },
-            initialTitle: entry.title,  // Pass initial title
-            initialContent: entry.content,  // Pass initial content
-            initialDate: entry.date,  // Pass initial date
+            initialTitle: entry.title, // Pass initial title
+            initialContent: entry.content, // Pass initial content
+            initialDate: entry.date, // Pass initial date
             isEditing: true, // Indicate that we are editing
           ),
         ),
@@ -61,7 +62,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset('assets/images/DiaryLogo.png'),  // Ensure you have a logo in assets
+          child: Image.asset(
+              'assets/images/DiaryLogo.png'), // Ensure you have a logo in assets
         ),
         title: const Text(
           'Diary Entries',
@@ -80,7 +82,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add, color: Colors.greenAccent), // Ensure color is visible
+            icon: const Icon(Icons.add,
+                color: Colors.greenAccent), // Ensure color is visible
             onPressed: () {
               Navigator.push(
                 context,
@@ -88,7 +91,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   builder: (context) => AddEntryPage(onSave: (entry) {
                     setState(() {
                       _diaryManager.addEntry(entry);
-                      _entries = _diaryManager.getEntries();  // Reload entries
+                      _entries = _diaryManager.getEntries(); // Reload entries
                     });
                   }),
                 ),
@@ -124,7 +127,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
           final entries = snapshot.data!;
 
           return ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
             itemCount: entries.length,
             itemBuilder: (context, index) {
               final entry = entries[index];
@@ -134,7 +138,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   _deleteEntry(index); // Delete the entry
                 },
                 onUpdate: () {
-                  _updateEntry(index);  // Open the update page
+                  _updateEntry(index); // Open the update page
                 },
               );
             },
